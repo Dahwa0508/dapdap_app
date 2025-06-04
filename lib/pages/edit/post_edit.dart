@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'drawing_board_page.dart';
+import '../home/home_page.dart';
 
-class PostPage extends StatelessWidget {
-  const PostPage({super.key});
+class PostEdit extends StatelessWidget {
+  const PostEdit({super.key});
 
   @override
   Widget build(BuildContext context) {

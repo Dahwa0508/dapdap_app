@@ -68,6 +68,11 @@ flutter:
     - image/q2.png
     - image/google.png
     - image/q1.png
+    - image/mydap1.png
+    - image/mydap2.png
+    - image/teacher.png
+    - image/board.png
+    - image/answer_math.png
 
   fonts:
       - family: GmarketSans

@@ -108,7 +108,7 @@ class ChatPage extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.asset(
-                    'assets/images/teacher.png',
+                    'image/teacher.png',
                     height: 180,
                   ),
                 )

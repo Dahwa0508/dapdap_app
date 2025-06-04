@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../widgets/top_app_bar.dart';
 import '../chat/chat_page.dart';
+import '../board/board_page.dart';
+import '../post/question_detail_page.dart';  // QuestionDetailPage import 추가
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,18 +67,26 @@ class _HomePageState extends State<HomePage> {
                 height: 160,
                 child: PageView(
                   controller: _pageController,
-                  children: const [
+                  children: [
                     _BannerCard(
                       title: '질문하기',
                       subtitle: '빠르고 정확한 답변보기',
                       imageAsset: 'image/q2.png',
-                      backgroundColor: Color(0xFF2C4D14),
+                      backgroundColor: const Color(0xFF2C4D14),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BoardPage(onNavigate: (_) {}),
+                          ),
+                        );
+                      },
                     ),
                     _BannerCard(
                       title: '답변하기',
                       subtitle: '나의 지식 공유하기',
                       imageAsset: 'image/q1.png',
-                      backgroundColor: Color(0xFFF6DCDD), // 핑크 배경
+                      backgroundColor: const Color(0xFFF6DCDD),
                     ),
                   ],
                 ),
@@ -129,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                 height: 260,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: const [
+                  children: [
                     _MyDapCard(
                       title: 'CDF 문제풀이',
                       time: '10분 전',
@@ -137,14 +147,30 @@ class _HomePageState extends State<HomePage> {
                       tags: ['#확률및통계', '#대학수학'],
                       comments: 1,
                       note: '1개의 확인하지 않은 답변이 있어요!',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const QuestionDetailPage(),
+                          ),
+                        );
+                      },
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     _MyDapCard(
                       title: '논리회로 MUX 사용',
                       time: '어제',
                       image: 'image/mydap2.png',
                       tags: ['#논리회로', '#공과대학'],
                       comments: 3,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const QuestionDetailPage(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -162,50 +188,57 @@ class _BannerCard extends StatelessWidget {
   final String subtitle;
   final String imageAsset;
   final Color backgroundColor;
+  final VoidCallback? onTap;
 
   const _BannerCard({
     required this.title,
     required this.subtitle,
     required this.imageAsset,
     required this.backgroundColor,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(title,
-                    style: const TextStyle(
-                        fontFamily: 'GmarketSans',
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                Text(subtitle,
-                    style: const TextStyle(
-                        fontFamily: 'Pretendard', fontSize: 18, color: Colors.white)),
-              ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(title,
+                      style: const TextStyle(
+                          fontFamily: 'GmarketSans',
+                          fontSize: 32,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Text(subtitle,
+                      style: const TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 18,
+                          color: Colors.white)),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Image.asset(
-            imageAsset,
-            height: 120,
-            fit: BoxFit.contain,
-          ),
-        ],
+            const SizedBox(width: 16),
+            Image.asset(
+              imageAsset,
+              height: 120,
+              fit: BoxFit.contain,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -253,6 +286,7 @@ class _MyDapCard extends StatelessWidget {
   final List<String> tags;
   final int comments;
   final String? note;
+  final VoidCallback? onTap;  // 추가
 
   const _MyDapCard({
     required this.title,
@@ -261,78 +295,87 @@ class _MyDapCard extends StatelessWidget {
     required this.tags,
     required this.comments,
     this.note,
+    this.onTap,  // 추가
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      decoration: BoxDecoration(
-        color: const Color(0xFFF6DCDD),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(title,
-                    style: const TextStyle(
-                        fontFamily: 'GmarketSans', fontWeight: FontWeight.bold)),
+    return GestureDetector(
+      onTap: onTap,  // 클릭 시 호출
+      child: Container(
+        width: 200,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF6DCDD),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(title,
+                      style: const TextStyle(
+                          fontFamily: 'GmarketSans', fontWeight: FontWeight.bold)),
+                ),
+                Text(time,
+                    style: const TextStyle(fontFamily: 'Pretendard', fontSize: 12)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Container(
+              height: 90,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFF2C4D14)),
+                borderRadius: BorderRadius.circular(8),
               ),
-              Text(time,
-                  style: const TextStyle(fontFamily: 'Pretendard', fontSize: 12)),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Container(
-            height: 90,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF2C4D14)),
-              borderRadius: BorderRadius.circular(8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.asset(image, fit: BoxFit.cover),
+              ),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Image.asset(image, fit: BoxFit.cover),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 6,
+              runSpacing: 2,
+              children: tags
+                  .map((tag) => Chip(
+                label: Text(tag,
+                    style: const TextStyle(
+                        fontFamily: 'Pretendard',
+                        fontSize: 11,
+                        color: Colors.white)),
+                backgroundColor: const Color(0xFF2C4D14),
+                padding:
+                const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity:
+                const VisualDensity(horizontal: -4, vertical: -4),
+              ))
+                  .toList(),
             ),
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 6,
-            runSpacing: 2,
-            children: tags
-                .map((tag) => Chip(
-              label: Text(tag,
+            const SizedBox(height: 6),
+            Row(
+              children: [
+                const Icon(Icons.comment, size: 14),
+                const SizedBox(width: 4),
+                Text('$comments개',
+                    style: const TextStyle(fontFamily: 'Pretendard')),
+              ],
+            ),
+            if (note != null) ...[
+              const SizedBox(height: 4),
+              Text(note!,
                   style: const TextStyle(
                       fontFamily: 'Pretendard',
                       fontSize: 11,
-                      color: Colors.white)),
-              backgroundColor: const Color(0xFF2C4D14),
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-            ))
-                .toList(),
-          ),
-          const SizedBox(height: 6),
-          Row(
-            children: [
-              const Icon(Icons.comment, size: 14),
-              const SizedBox(width: 4),
-              Text('$comments개', style: const TextStyle(fontFamily: 'Pretendard')),
-            ],
-          ),
-          if (note != null) ...[
-            const SizedBox(height: 4),
-            Text(note!,
-                style: const TextStyle(
-                    fontFamily: 'Pretendard', fontSize: 11, color: Colors.grey)),
-          ]
-        ],
+                      color: Colors.grey)),
+            ]
+          ],
+        ),
       ),
     );
   }

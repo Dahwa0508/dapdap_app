@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/bottom_nav.dart';
-import 'pages/post/post_page.dart';
+import 'pages/edit/post_edit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const MainScaffold(),
       routes: {
-        '/post': (context) => const PostPage(),
+        '/post': (context) => const PostEdit(),
       },
     );
   }

@@ -6,7 +6,8 @@ import '../pages/filter/filter_page.dart';
 import '../pages/board/board_page.dart';
 import '../pages/user/profile_page.dart';
 import '../pages/ranking/ranking_page.dart';
-import '../pages/post/post_page.dart';
+import '../pages/edit/post_edit.dart';
+import '../pages/auth/login_page.dart';
 
 class MainScaffold extends StatefulWidget {
   final int initialIndex;
@@ -40,7 +41,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         page = const RankingPage();
         break;
       case 'post':
-        page = const PostPage();
+        page = const PostEdit();
         break;
       default:
         return;
